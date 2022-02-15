@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <h1>HEJ BLOGGEN</h1>
     <form action="" @submit.prevent="login">
       <label for="">email</label>
       <input type="text" v-model="email">
@@ -14,14 +15,13 @@
       <input type="text" v-model="content">
       <button>Upload</button>
     </form>
-    <p v-for="post in posts" :key="post.id">
-      {{post.title}}
-      {{post.content}}
-      {{post.createdAt}}
-    </p>
-    
-    <button @click="artist"> test</button>
-    <p v-for="artisto in artists" :key="artisto.artist.name">{{artisto.artist.name}}</p>
+    <div v-if="$store.state.loggedIn">
+      <button @click="showPosts">Show posts</button>
+      <div v-for="post in posts.data.posts" :key="post.id">
+        <h1>{{post.title}}</h1>
+        <p>{{post.content}}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,24 +36,33 @@ export default {
     content: ''
   }},
   name: 'Home',
+  // beforeMount() {
+  //   this.$store.dispatch('getPosts')
+  // },
   methods:{
-    artist(){
-      this.$store.dispatch('artist')
-    },
     login(){
       this.$store.dispatch('login', {email: this.email, password: this.password})
     },
     createPost(){
       this.$store.dispatch('createPost', {title: this.title, content: this.content})
   },
+    showPosts(){
+      this.$store.dispatch('getPosts')
+    }
 },
   computed: {
-    artists(){
-      return this.$store.state.artists
-    },
     posts(){
       return this.$store.state.posts
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+
+div {
+  border: 2px black solid;
+  background: lemonchiffon
+}
+
+</style>
