@@ -20,6 +20,12 @@ export default new Vuex.Store({
     },
     listPosts(state, payload){
       state.posts = payload.data.posts
+    },
+    deletePost(state, id){
+      state.posts = state.posts.filter(post => post.id != id)
+    },
+    updatePost(state, post){
+      state.posts[state.posts.findIndex(el => el.id === post.id)] = post;
     }
   },
   actions: {
@@ -45,6 +51,7 @@ export default new Vuex.Store({
 
     async deletePost(context, id){
       await API.deletePost(id)
+      context.commit('deletePost', id)
       // await context.actions.getPosts(context)
     },
 
@@ -54,6 +61,7 @@ export default new Vuex.Store({
         post.content,
         post.id
       )
+      context.commit('updatePost', post)
     }
   },
   modules: {
