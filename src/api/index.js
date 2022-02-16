@@ -1,45 +1,25 @@
 import axios from 'axios'
 
-// axios.defaults.baseURL = 'http://ws.audioscrobbler.com/2.0/'
+axios.defaults.baseURL = 'http://localhost:8000/api/v1'
+axios.defaults.headers.common['Content-Type'] = `application/json`;
 
-
-// const token = this.$store.state.token.token
-
-export async function artist (){
-    try{
-      const response = await axios.get('http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=Cher&api_key=eb2781535b778ed5f33e8d041955fba2&format=json')
-        return response
-  
-}catch(error){
-console.log(error);
+export function saveToken(token){
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
-}
-
 
 export async function login(email, password){
-    try{
-      const response = await axios.post('http://localhost:8000/api/v1/auth/', 
-        {email, password},
-      )
-      
-      return response
-  
-    }catch(error){
-      console.log(error);
-    }
+  return await axios.post('/auth', 
+    {email, password})
+   
   }
 
-  export async function createPost(title, content, token){
-    console.log(token)
-      try{
-          const response = await axios.post('http://localhost:8000/api/v1/posts',
-          {title, content},
-          {headers: {Authorization: 'Bearer ' + token}})
-          return response
-      }catch(error){
-          console.log(error)
-      }
+  export async function createPost(title, content){
+    return await axios.post('/posts',
+      {title, content})
+  }
 
+  export async function getPosts(){
+    return await axios.get('/posts')
   }
 
 

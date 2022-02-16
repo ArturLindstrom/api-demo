@@ -14,16 +14,19 @@
       <label for="">content</label>
       <input type="text" v-model="content">
       <button>Upload</button>
-    <div v-if="$store.state.posts.data">
-      <div v-for="blogPost in posts" :key="blogPost.id">
-        {{blogPost.title}}
+    </form>
+    <div v-if="$store.state.loggedIn">
+      <button @click="showPosts">Show posts</button>
+      <div v-for="post in posts.data.posts" :key="post.id">
+        <h1>{{post.title}}</h1>
+        <p>{{post.content}}</p>
       </div>
     </div>
-    </form>
   </div>
 </template>
 
 <script>
+// @ is an alias to /src
 
 export default {
   data(){return{
@@ -33,10 +36,12 @@ export default {
     content: ''
   }},
   name: 'Home',
+  // beforeMount() {
+  //   this.$store.dispatch('getPosts')
+  // },
   methods:{
-    async login(){
-      await this.$store.dispatch('login', {email: this.email, password: this.password})
-      await this.showPosts()
+    login(){
+      this.$store.dispatch('login', {email: this.email, password: this.password})
     },
     createPost(){
       this.$store.dispatch('createPost', {title: this.title, content: this.content})
@@ -45,15 +50,11 @@ export default {
       this.$store.dispatch('getPosts')
     }
 },
-  computed: {
-    posts(){
-      if(this.$store.state.posts.data.posts){
-        return this.$store.state.posts.data.posts
-      } else {
-        return 'No posts'
-      }
-    }
-  }
+  // computed: {
+  //   posts(){
+  //     return this.$store.state.posts
+  //   }
+  // }
 }
 </script>
 
