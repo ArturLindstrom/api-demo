@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <h1>HEJ BLOGGEN</h1>
     <form action="" @submit.prevent="login">
       <label for="">email</label>
       <input type="text" v-model="email">
@@ -17,11 +16,12 @@
       <button>Upload</button>
     </form>
     <div v-if="$store.state.posts">
-      <div v-for="blogPost in posts" :key="blogPost.id">
+      <div v-for="blogPost in posts" :key="blogPost.id" class="blogPost">
         <h1>{{blogPost.title}}</h1>
         <h2>{{blogPost.id}}</h2>
         <p>{{blogPost.content}}</p>
         <button @click="deletePost(blogPost.id)">Delete post</button>
+        <button @click="updatePost(blogPost.id)">Update post</button>
       </div>
     </div>
   </div>
@@ -51,6 +51,11 @@ export default {
     async deletePost(id){
       await this.$store.dispatch('deletePost', id)
       await this.showPosts()
+    },
+    async updatePost(postId){
+      await this.$store.dispatch('updatePost', {title: this.title, content: this.content, id: postId})
+      await this.showPosts()
+      // await this.showPosts()title: this.title, content: this.content, id: postId})
     }
 },
   computed: {
@@ -66,10 +71,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200&display=swap');
+
+body {
+  background: #EEEEEE
+}
 
 div {
-  border: 2px black solid;
-  background: lemonchiffon
+  border-radius: 1rem;
+  margin: 1rem;
+}
+
+.blogPost {
+  font-family: 'Josefin Sans', sans-serif;
+  padding: 2rem;
+  text-align: left;
+  background: linear-gradient(#EEEEEE, white);
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.blogPost p {
+  font-size: 1.2rem
 }
 
 </style>

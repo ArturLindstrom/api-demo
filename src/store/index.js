@@ -46,6 +46,14 @@ export default new Vuex.Store({
     async deletePost(context, id){
       await API.deletePost(id)
       // await context.actions.getPosts(context)
+    },
+
+    async updatePost(context, post){
+      await API.updatePost(
+        post.title,
+        post.content,
+        post.id
+      )
     }
   },
   modules: {

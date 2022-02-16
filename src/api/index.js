@@ -26,6 +26,12 @@ export async function deletePost(id){
   return await axios.delete('/posts/' + id)
 }
 
+export async function updatePost(title,content, id){
+  return await axios.patch('/posts/' + id, {
+    title,content
+  })
+}
+
 // export async function login(email, password){
 //     try{
 //       const response = await axios.post('/auth', 
