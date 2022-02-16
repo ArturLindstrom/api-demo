@@ -19,11 +19,10 @@ export default new Vuex.Store({
       state.posts.push(payload)
     },
     listPosts(state, payload){
-      state.posts = payload
+      state.posts = payload.data.posts
     }
   },
   actions: {
-
     async login(context, credentials){
       const response = await API.login(
         credentials.email,
@@ -35,13 +34,18 @@ export default new Vuex.Store({
     async createPost(context, post){
       const response = await API.createPost(
         post.title,
-        post.content,
+        post.content
       )
       context.commit('addPost', response.data.post)
     },
     async getPosts(context){
       const response = await API.getPosts()
       context.commit('listPosts', response)
+    },
+
+    async deletePost(context, id){
+      await API.deletePost(id)
+      // await context.actions.getPosts(context)
     }
   },
   modules: {

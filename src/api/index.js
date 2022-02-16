@@ -13,20 +13,18 @@ export async function login(email, password){
    
   }
 
-  export async function createPost(title, content){
-    return await axios.post('/posts',
-      {title, content})
-  }
+export async function createPost(title, content){
+  return await axios.post('/posts',
+    {title, content})
+}
 
-  export async function getPosts(){
-    return await axios.get('/posts')
-  }
+export async function getPosts(){
+  return await axios.get('/posts')
+}
 
-
-
-
-
-
+export async function deletePost(id){
+  return await axios.delete('/posts/' + id)
+}
 
 // export async function login(email, password){
 //     try{
